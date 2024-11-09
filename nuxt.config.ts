@@ -12,10 +12,26 @@ export default defineNuxtConfig({
       },
     },
   },
+  app: {
+    head: {
+      charset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no',
+    },
+  },
   alias: {
     src: path.join(__dirname, './src'),
   },
   srcDir: 'src/',
   ssr: true,
-  modules: ['@nuxtjs/tailwindcss']
+  modules: ['@nuxtjs/tailwindcss'],
+  imports: {
+    dirs: [
+      './assets',
+      './hooks',
+      './layouts',
+      './plugins',
+      './types',
+    ],
+    autoImport: true,
+  },
 })

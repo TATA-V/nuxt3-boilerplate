@@ -7,4 +7,7 @@ module.exports = {
     sourceType: 'module',
   },
   ignorePatterns: ['nuxt.config.ts', 'tsconfig.json', 'README.md'],
+  rules: {
+    'no-promise-executor-return': 'off',
+  },
 };
