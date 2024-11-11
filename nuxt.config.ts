@@ -1,5 +1,6 @@
 import * as path from 'path';
 
+const { BASE_URL } = process.env;
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-09',
@@ -12,6 +13,18 @@ export default defineNuxtConfig({
       },
     },
   },
+  nitro: {
+    routeRules: {
+      '/api/**': {
+        proxy: `${BASE_URL}/**`,
+      },
+    },
+    compressPublicAssets: true,
+    experimental: {
+      nodeFetchCompat: true,
+    },
+    devProxy: {},
+  },
   app: {
     head: {
       charset: 'utf-8',
@@ -23,9 +36,9 @@ export default defineNuxtConfig({
   },
   srcDir: 'src/',
   ssr: true,
-  modules: ['@nuxtjs/tailwindcss'],
   imports: {
     dirs: [
+      './api',
       './assets',
       './hooks',
       './layouts',
@@ -33,5 +46,20 @@ export default defineNuxtConfig({
       './types',
     ],
     autoImport: true,
+  },
+  modules: ['@nuxtjs/tailwindcss', '@hebilicious/vue-query-nuxt'],
+  vueQuery: {
+    queryClientOptions: {
+      defaultOptions: {
+        queries: {
+          refetchOnWindowFocus: false,
+          retryOnMount: true,
+          refetchOnReconnect: false,
+          retry: false,
+          staleTime: 1000 * 60 * 10, 
+          gcTime: 1000 * 60 * 15, 
+        },
+      },
+    },
   },
 })
